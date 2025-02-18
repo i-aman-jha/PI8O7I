@@ -10,17 +10,24 @@ class MyDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<WidgetController>();
+    final bool isSmallWidth = MediaQuery.of(context).size.width < 1000;
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    final bool isVerySmallWidth = MediaQuery.of(context).size.width < 520;
 
     return Center(
       child: Container(
         height: (kIsWeb)
             ? MediaQuery.of(context).size.height * 0.8
             : MediaQuery.of(context).size.height,
-        width: (kIsWeb)
-            ? MediaQuery.of(context).size.width * 0.4
-            : MediaQuery.of(context).size.width,
+        width: (isVerySmallWidth)
+            ? MediaQuery.of(context).size.width * 0.9
+            : (isSmallWidth)
+                ? MediaQuery.of(context).size.width * 0.4
+                : (kIsWeb)
+                    ? MediaQuery.of(context).size.width * 0.4
+                    : MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 156, 255, 192),
+          color: Color.fromARGB(255, 174, 253, 206),
           borderRadius: BorderRadius.circular(20),
         ),
         padding: EdgeInsets.all(20),
@@ -109,7 +116,9 @@ class MyDialog extends StatelessWidget {
                   controller.importWidget();
                   // print(controller.widget.value);
                   print(controller.widgetsOptions.values);
-                  Navigator.pop(context);
+                  if (!kIsWeb || isVerySmallWidth) {
+                    Navigator.pop(context);
+                  }
                 },
               )
             ],

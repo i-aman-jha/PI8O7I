@@ -129,6 +129,11 @@ class WidgetController extends GetxController {
       if (widgetsOptions["Text Widget"] == true) {
         String textData = textController.text;
 
+        if (textData.isEmpty) {
+          Get.snackbar("Empty Text!", "Please enter text to save");
+          return;
+        }
+
         await firestore.collection('widgets').add({
           'type': 'Text',
           'content': textData,
